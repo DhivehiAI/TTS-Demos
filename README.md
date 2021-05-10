@@ -46,7 +46,7 @@ The script `streamlit_speak.py` can be run like:
 
 Currently we provide the following pre-trained models
 
-|Name|Type|file_id|
-|----|----|-------|
-|DV Male v1|TTS|1KXAl8823lemgovmwYzU43U5JyXx-BG6p|
-|DV Female v1|TTS|1T0RyRKizHMY8r9ZS5Z_fy45TBSXAlNH5|
+|Name|Type|file_id|model
+|----|----|-------|-----|
+|DV Male v1|TTS|1KXAl8823lemgovmwYzU43U5JyXx-BG6p|TransformerTTS|
+|DV Female v1|TTS|1T0RyRKizHMY8r9ZS5Z_fy45TBSXAlNH5|TransformerTTS|
