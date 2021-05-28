@@ -14,6 +14,8 @@ Limitations:
 
 
 ## Usage
+
+### Command Line Interface
 ```commandline
 usage: dv_speak.py [-h] [--model MODEL] [--output OUTPUT] [--speed SPEED] text
 
@@ -32,6 +34,13 @@ optional arguments:
 
 **Sample Usage**:  
 `python3 dv_speak.py --model path_to_models --output out.wav --speed 0.9 "ހެލޯ ދިވެހި"`
+
+
+### Streamlit Service
+We provide a basic streamlit script to run inference as well.
+The script `streamlit_speak.py` can be run like:
+
+`streamlit run streamlit_speak.py -- -m path_to_model`
 
 ## Pretrained Models
 

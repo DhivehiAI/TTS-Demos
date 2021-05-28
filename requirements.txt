@@ -3,3 +3,4 @@ tensorflow
 numpy
 gdown
 soundfile
+streamlit
