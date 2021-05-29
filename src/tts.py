@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+import re
 
 token_mapping = {
     ' ': 1, '!': 2, "'": 3, '-': 4, '.': 5,
@@ -19,6 +20,10 @@ token_mapping = {
 
 class TextPipeline:
 
+    def __init__(self) -> None:
+        super().__init__()
+        self.splitter = re.compile("[.\n]")
+
     @staticmethod
     def tokenize(inp: str):
         """
@@ -27,6 +32,9 @@ class TextPipeline:
         :return: 1d array of int32 tokens
         """
         return [(token_mapping[x] if x in token_mapping.keys() else token_mapping[' ']) for x in inp]
+
+    def split(self, text):
+        return self.splitter.split(text)
 
     def __call__(self, text: str, sent_breath=2, para_breath=3):
         return self.tokenize(text)
@@ -41,13 +49,24 @@ class TTSModel:
         self.MAX_WAV_VALUE = 32768
 
     def __call__(self, text: str, speed: int = 1.0):
-        inp = self.text_pipeline(text)
 
-        tts_out = self.model.predict_mel(inp, speed)
-        tts_out = tts_out[np.newaxis, :, :]
+        out = np.array([])
+        for tx in self.text_pipeline.split(text):
+            inp = self.text_pipeline(tx)
 
-        vocoder_out = self.vocoder(input=tts_out)[0]
-        vocoder_out = vocoder_out.numpy().squeeze()
-        vocoder_out *= self.MAX_WAV_VALUE
+            if not tx:
+                continue
+            elif tx.isspace():
+                # todo: pad silence here maybe?
+                continue
+            else:
+                tts_out = self.model.predict_mel(inp, speed)
+                tts_out = tts_out[np.newaxis, :, :]
 
-        return vocoder_out
+                vocoder_out = self.vocoder(input=tts_out)[0]
+                vocoder_out = vocoder_out.numpy().squeeze()
+                vocoder_out *= self.MAX_WAV_VALUE
+
+                out = np.concatenate((out, vocoder_out))
+
+        return out
