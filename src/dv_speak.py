@@ -27,4 +27,3 @@ if __name__ == "__main__":
     parser.add_argument("--output", "-o", type=str, help="Output audio path")
     parser.add_argument("--speed", "-s", default=0.95, type=float, help="Readout speed")
     main(**vars(parser.parse_args()))
-    
